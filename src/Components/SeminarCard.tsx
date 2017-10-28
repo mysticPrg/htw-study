@@ -37,7 +37,7 @@ class SeminarCard extends React.Component<Props, State> {
 			<div className={css(Styles.normal)}>
 				<p>{this.props.title}</p>
 				<p>{this.props.author}</p>
-				<button onClick={this.toggle}>Open!</button>
+				<button onClick={this.toggle}>{this.state.isOpen ? 'Close' : 'Open'}</button>
 			</div>
 		);
 	}

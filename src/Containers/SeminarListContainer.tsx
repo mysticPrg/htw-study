@@ -20,8 +20,8 @@ class SeminarListContainer extends React.Component<Props> {
 	render() {
 		return (
 			<div>
+				<button onClick={this.props.onBtnClick}>Refresh</button>
 				<SeminarList seminars={this.props.seminars} />
-				<button onClick={this.props.onBtnClick}>click</button>
 			</div>
 		);
 	}

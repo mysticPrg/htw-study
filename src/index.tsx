@@ -10,15 +10,18 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import SeminarListContainer from './Containers/SeminarListContainer';
 import rootReducer from './Reducers';
 import rootSaga from './Sagas';
+import { SystemCreator } from './Actions';
 
 import registerServiceWorker from './registerServiceWorker';
 
+// Setting Store and Middlewares
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
 	rootReducer,
 	composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
 
+// Render App
 ReactDOM.render(
 	<Provider store={store}>
 		<div>
@@ -30,12 +33,5 @@ ReactDOM.render(
 registerServiceWorker();
 sagaMiddleware.run(rootSaga);
 
-import { SeminarCreator } from './Actions';
-for ( let i = 0 ; i < 5 ; i++ ) {
-	store.dispatch(SeminarCreator.add.create({
-		id: i,
-		author: `author${i}`,
-		title: `title${i}`,
-		content: `content${i}`,
-	}));
-}
+// Init system
+store.dispatch(SystemCreator.init.create({}));
