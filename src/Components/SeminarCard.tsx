@@ -2,6 +2,7 @@ import * as React from 'react';
 import { StyleSheet as style, css } from 'aphrodite';
 
 interface Props {
+	// readonly key: number;
 	readonly id: number;
 	readonly title: string;
 	readonly author: string;

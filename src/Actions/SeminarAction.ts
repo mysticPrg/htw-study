@@ -1,5 +1,5 @@
 import { makeActionCreator } from '../Utils';
-import { Seminar } from '../Models';
+import { Seminar } from '../Stores';
 
 export enum SeminarAction {
 	ADD = 'SEMINAR.ADD',

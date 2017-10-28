@@ -4,3 +4,7 @@ export interface Seminar {
 	content: string;
 	author: string;
 }
+
+export interface SeminarState {
+	seminars: Seminar[];
+}

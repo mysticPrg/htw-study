@@ -1,6 +1,6 @@
 import { Map, List } from 'immutable';
 
-import { Seminar } from '../Models';
+import { Seminar } from '../Stores';
 import { SeminarAction, SeminarCreator } from '../Actions';
 
 interface SeminarState {
