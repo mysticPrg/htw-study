@@ -1,17 +1,23 @@
 // libs
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import createSagaMiddleware from 'redux-saga';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 // modules
 import SeminarListContainer from './Containers/SeminarListContainer';
-import reducer from './Reducers';
+import rootReducer from './Reducers';
+import rootSaga from './Sagas';
 
 import registerServiceWorker from './registerServiceWorker';
 
-const store = createStore(reducer, composeWithDevTools());
+const sagaMiddleware = createSagaMiddleware();
+const store = createStore(
+	rootReducer,
+	composeWithDevTools(applyMiddleware(sagaMiddleware))
+);
 
 ReactDOM.render(
 	<Provider store={store}>
@@ -22,6 +28,7 @@ ReactDOM.render(
 	document.getElementById('root') as HTMLElement
 );
 registerServiceWorker();
+sagaMiddleware.run(rootSaga);
 
 import { SeminarCreator } from './Actions';
 for ( let i = 0 ; i < 5 ; i++ ) {
@@ -32,5 +39,3 @@ for ( let i = 0 ; i < 5 ; i++ ) {
 		content: `content${i}`,
 	}));
 }
-
-store.dispatch(SeminarCreator.refresh.create({}));
