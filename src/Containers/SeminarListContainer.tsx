@@ -9,7 +9,7 @@ import { Dispatch } from '../Utils';
 
 interface Props {
 	readonly seminars: Seminar[];
-	readonly onBtnClick: () => void;
+	readonly onRefresh: () => void;
 }
 
 class SeminarListContainer extends React.Component<Props> {
@@ -20,8 +20,10 @@ class SeminarListContainer extends React.Component<Props> {
 	render() {
 		return (
 			<div>
-				<button onClick={this.props.onBtnClick}>Refresh</button>
-				<SeminarList seminars={this.props.seminars} />
+				<SeminarList
+					seminars={this.props.seminars}
+					refresh={this.props.onRefresh}
+				/>
 			</div>
 		);
 	}
@@ -32,7 +34,7 @@ const stateToProps = (state: RootState) => ({
 });
 
 const actionToProps = (dispatch: Dispatch) => ({
-	onBtnClick: () => dispatch(SeminarCreator.refresh.create({}))
+	onRefresh: () => dispatch(SeminarCreator.refresh.create({}))
 });
 
 export default connect(stateToProps, actionToProps)(SeminarListContainer);

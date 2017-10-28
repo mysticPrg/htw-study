@@ -6,10 +6,13 @@ import SeminarCard from './SeminarCard';
 
 interface Props {
 	readonly seminars: Seminar[];
+	readonly refresh: () => void;
 }
 
 const Styles = style.create({
-	normal: {}
+	list: {
+		display: 'block'
+	}
 });
 
 class SeminarList extends React.Component<Props> {
@@ -19,7 +22,7 @@ class SeminarList extends React.Component<Props> {
 
 	render() {
 		const cards = this.props.seminars.map((s, idx) => (
-			<li key={idx}>
+			<li key={idx} className={css(Styles.list)}>
 				<SeminarCard
 					id={s.id}
 					title={s.title}
@@ -30,7 +33,8 @@ class SeminarList extends React.Component<Props> {
 		));
 
 		return (
-			<div className={css(Styles.normal)}>
+			<div>
+				<button onClick={this.props.refresh}>Refresh</button>
 				<ol>{cards}</ol>
 			</div>
 		);
