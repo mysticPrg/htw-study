@@ -18,8 +18,9 @@ const SeminarReducer: (state: SeminarState, action: Action) => SeminarState =
 		switch ( action.type ) {
 
 			case SeminarAction.ADD: {
+				const seminarInfo: Seminar = action.payload as Seminar;
 				const seminars: Seminar[] = List(state.seminars)
-					.push(Map(action.payload).delete('type').toJS())
+					.push(Map(seminarInfo).delete('type').toJS())
 					.toArray();
 
 				return {
@@ -29,8 +30,9 @@ const SeminarReducer: (state: SeminarState, action: Action) => SeminarState =
 			}
 
 			case SeminarAction.DEL: {
+				const id: number = action.payload as number;
 				const seminars: Seminar[] = List(state.seminars)
-					.filterNot((s: Seminar) => s.id === action.payload)
+					.filterNot((s: Seminar) => s.id === id)
 					.toArray();
 
 				return {
