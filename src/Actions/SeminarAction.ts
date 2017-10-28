@@ -1,19 +1,27 @@
-import { ActionCreator } from 'react-redux-typescript';
-
+import { makeActionCreator } from '../Utils';
 import { Seminar } from '../Models';
 
 export enum SeminarAction {
 	ADD = 'SEMINAR.ADD',
-	DEL = 'SEMINAR.DEL'
+	DEL = 'SEMINAR.DEL',
+	REFRESH = 'SEMINAR.REFRESH',
 }
 
 export const SeminarCreator = {
-	add: new ActionCreator<SeminarAction.ADD, Seminar>(SeminarAction.ADD),
-	del: new ActionCreator<SeminarAction.DEL, number>(SeminarAction.DEL),
+	add: makeActionCreator<Seminar>(SeminarAction.ADD),
+	del: makeActionCreator<number>(SeminarAction.DEL),
+	refresh: makeActionCreator(SeminarAction.REFRESH),
 };
 
 // let l = SeminarCreator.load.create({ title: 'title', content: 'content'});
 // let d = SeminarCreator.del.create(30);
+
+// SeminarCreator.add.create({
+// 	id: 0,
+// 	author: '',
+// 	content: '',
+// 	title: ''
+// });
 
 // {
 // 	type: 'SEMINAR.ADD',

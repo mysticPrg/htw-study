@@ -27,3 +27,15 @@ ReactDOM.render(
 	document.getElementById('root') as HTMLElement
 );
 registerServiceWorker();
+
+import { SeminarCreator } from './Actions';
+for ( let i = 0 ; i < 5 ; i++ ) {
+	store.dispatch(SeminarCreator.add.create({
+		id: i,
+		author: `author${i}`,
+		title: `title${i}`,
+		content: `content${i}`,
+	}));
+}
+
+store.dispatch(SeminarCreator.refresh.create({}));

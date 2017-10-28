@@ -39,6 +39,10 @@ const SeminarReducer: (state: SeminarState, action: Action) => SeminarState =
 				};
 			}
 
+			case SeminarAction.REFRESH: {
+				return state;
+			}
+
 			default:
 				return state;
 		}
