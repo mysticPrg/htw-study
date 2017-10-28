@@ -8,3 +8,7 @@ export interface Seminar {
 export interface SeminarState {
 	seminars: Seminar[];
 }
+
+export const SeminarInitialState: SeminarState = {
+	seminars: []
+};

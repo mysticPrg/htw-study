@@ -1,20 +1,12 @@
 import { Map, List } from 'immutable';
 
-import { Seminar } from '../Stores';
+import { Seminar, SeminarState, SeminarInitialState } from '../Stores';
 import { SeminarAction, SeminarCreator } from '../Actions';
-
-interface SeminarState {
-	seminars: Seminar[];
-}
-
-const initialState: SeminarState = {
-	seminars: []
-};
 
 type Action = typeof SeminarCreator[keyof typeof SeminarCreator];
 
 const SeminarReducer: (state: SeminarState, action: Action) => SeminarState =
-	(state = initialState, action) => {
+	(state = SeminarInitialState, action) => {
 		switch ( action.type ) {
 
 			case SeminarAction.ADD: {
