@@ -1,9 +1,9 @@
-import { makeActionCreator } from '../Utils';
+import { makeActionUtil } from '../Utils';
 
 export enum SystemAction {
 	INIT = 'SYSTEM.INIT',
 }
 
 export const SystemCreator = {
-	init: makeActionCreator(SystemAction.INIT),
+	init: makeActionUtil(SystemAction.INIT),
 };

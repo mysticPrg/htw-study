@@ -1,13 +1,13 @@
 import { all, takeEvery, put } from 'redux-saga/effects';
 
-import { Action, SeminarAction, SeminarCreator, SystemAction } from '../Actions';
+import { Action, SeminarActionType, SeminarActionUtil, SystemAction } from '../Actions';
 
 let lastIndex: number = -1;
 
 function* fakeInit() {
 	yield takeEvery(SystemAction.INIT, function*(action: Action) {
 		for ( let i = 0 ; i < 5 ; i++ ) {
-			yield put(SeminarCreator.add.create({
+			yield put(SeminarActionUtil.add.create({
 				id: ++lastIndex,
 				author: `author${lastIndex}`,
 				title: `title${lastIndex}`,
@@ -18,8 +18,8 @@ function* fakeInit() {
 }
 
 function* handleSeminarRefresh() {
-	yield takeEvery(SeminarAction.REFRESH, function*(action: Action) {
-		yield put(SeminarCreator.add.create({
+	yield takeEvery(SeminarActionType.REFRESH, function*(action: Action) {
+		yield put(SeminarActionUtil.add.create({
 			id: ++lastIndex,
 			author: `author${lastIndex}`,
 			title: `title${lastIndex}`,

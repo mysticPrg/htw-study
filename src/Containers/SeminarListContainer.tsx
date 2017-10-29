@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import RootState, { Seminar } from '../Stores';
 import SeminarList from '../Components/SeminarList';
 
-import { SeminarCreator } from '../Actions';
+import { SeminarActionUtil } from '../Actions';
 import { Dispatch } from '../Utils';
 
 interface Props {
@@ -34,7 +34,7 @@ const stateToProps = (state: RootState) => ({
 });
 
 const actionToProps = (dispatch: Dispatch) => ({
-	onRefresh: () => dispatch(SeminarCreator.refresh.create({}))
+	onRefresh: () => dispatch(SeminarActionUtil.refresh.create({}))
 });
 
 export default connect(stateToProps, actionToProps)(SeminarListContainer);

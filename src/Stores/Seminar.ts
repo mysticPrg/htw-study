@@ -9,6 +9,6 @@ export interface SeminarState {
 	seminars: Seminar[];
 }
 
-export const SeminarInitialState: SeminarState = {
+export const seminarInitialState: SeminarState = {
 	seminars: []
 };
