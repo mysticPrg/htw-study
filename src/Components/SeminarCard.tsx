@@ -2,7 +2,6 @@ import * as React from 'react';
 import { StyleSheet as style, css } from 'aphrodite';
 
 interface Props {
-	// readonly key: number;
 	readonly id: number;
 	readonly title: string;
 	readonly author: string;
@@ -13,13 +12,40 @@ interface State {
 	readonly isOpen: boolean;
 }
 
+const colorKeyframes = {
+	'0%': {
+		paddingLeft: 0,
+	},
+
+	'100%': {
+		color: 'red',
+		paddingLeft: '10px',
+	}
+};
+
+const colorKeyframesBack = {
+	'100%': {
+		paddingLeft: 0,
+	},
+
+	'0%': {
+		color: 'red',
+		paddingLeft: '10px',
+	}
+};
+
 const Styles = style.create({
 	normal: {
 		color: 'blue',
+		animationName: colorKeyframesBack,
+		animationDuration: '0.2s',
+		animationFillMode: 'forwards',
 		':hover': {
-			color: 'red'
-		}
-	},
+			animationName: colorKeyframes,
+			animationDuration: '0.2s',
+			animationFillMode: 'forwards',
+		},
+	}
 });
 
 class SeminarCard extends React.Component<Props, State> {

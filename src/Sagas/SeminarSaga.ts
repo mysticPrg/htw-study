@@ -1,13 +1,14 @@
-import { all, takeEvery, put } from 'redux-saga/effects';
+import { all, put } from 'redux-saga/effects';
+import { takeEvery } from '../Utils';
 
-import { Action, SeminarActionType, SeminarActionUtil, SystemAction } from '../Actions';
+import { SeminarAction, SystemAction } from '../Actions';
 
 let lastIndex: number = -1;
 
 function* fakeInit() {
-	yield takeEvery(SystemAction.INIT, function*(action: Action) {
+	yield takeEvery(SystemAction.init, function*() {
 		for ( let i = 0 ; i < 5 ; i++ ) {
-			yield put(SeminarActionUtil.add.create({
+			yield put(SeminarAction.add.create({
 				id: ++lastIndex,
 				author: `author${lastIndex}`,
 				title: `title${lastIndex}`,
@@ -18,8 +19,10 @@ function* fakeInit() {
 }
 
 function* handleSeminarRefresh() {
-	yield takeEvery(SeminarActionType.REFRESH, function*(action: Action) {
-		yield put(SeminarActionUtil.add.create({
+/* tslint:disable typedef */
+	yield takeEvery(SeminarAction.refresh, function*(payload) {
+/* tslint:enable typedef */
+		yield put(SeminarAction.add.create({
 			id: ++lastIndex,
 			author: `author${lastIndex}`,
 			title: `title${lastIndex}`,

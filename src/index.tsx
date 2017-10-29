@@ -11,7 +11,7 @@ import './index.css';
 import App from './Components/App';
 import rootReducer from './Reducers';
 import rootSaga from './Sagas';
-import { SystemCreator } from './Actions';
+import { SystemAction } from './Actions';
 
 import registerServiceWorker from './registerServiceWorker';
 
@@ -33,4 +33,4 @@ registerServiceWorker();
 sagaMiddleware.run(rootSaga);
 
 // Init system
-store.dispatch(SystemCreator.init.create({}));
+store.dispatch(SystemAction.init.create({}));

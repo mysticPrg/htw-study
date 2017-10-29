@@ -1,11 +1,11 @@
 import { List } from 'immutable';
 
 import { Seminar, seminarInitialState } from '../Stores';
-import { SeminarActionUtil } from '../Actions';
+import { SeminarAction } from '../Actions';
 import { makeReduceRule, makeReducer } from '../Utils';
 
 export default makeReducer(seminarInitialState, [
-	makeReduceRule(SeminarActionUtil.add, (state, seminarInfo) => {
+	makeReduceRule(SeminarAction.add, (state, seminarInfo) => {
 		const seminars = List(state.seminars)
 		.push(seminarInfo)
 		.toArray();
@@ -16,7 +16,7 @@ export default makeReducer(seminarInitialState, [
 		};
 	}),
 
-	makeReduceRule(SeminarActionUtil.del, (state, id) => {
+	makeReduceRule(SeminarAction.del, (state, id) => {
 		const seminars = List(state.seminars)
 			.filterNot((s: Seminar) => s.id === id)
 			.toArray();

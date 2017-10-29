@@ -1,11 +1,29 @@
-import { ActionCreator } from 'react-redux-typescript';
+import { takeEvery as _takeEvery } from 'redux-saga/effects';
 
-import { Action } from '../Actions';
+/* tslint:disable: no-any */
+interface Action {
+	type: any;
+	payload?: any;
+}
 
-class ActionUtil<T, P> extends ActionCreator<T, P> {} // alias
+class ActionUtil<P> {
+	readonly type: string;
+	readonly payload: P;
+	
+	constructor(type: string) {
+		this.type = type;
+	}
+	
+	create(payload?: P): Action {
+		return {
+			type: this.type,
+			payload
+		};
+	}
+}
 
-export function makeActionUtil<P>(type: string): ActionUtil<typeof type, P> {
-	return new ActionUtil<typeof type, P>(type);
+export function makeActionUtil<P>(type: string): ActionUtil<P> {
+	return new ActionUtil<P>(type);
 }
 
 export interface Dispatch {
@@ -20,13 +38,12 @@ interface SubReducer<S, P> {
 	(state: S, payload: P): S;
 }
 
-/* tslint:disable: no-any */
 export interface ReduceRule<S> {
-	actionUtil: ActionUtil<any, any>;
+	actionUtil: ActionUtil<any>;
 	reducer: SubReducer<S, any>;
 }
 
-export function makeReduceRule<T, P, S>(actionUtil: ActionUtil<T, P>, reducer: SubReducer<S, P>): ReduceRule<S> {
+export function makeReduceRule<P, S>(actionUtil: ActionUtil<P>, reducer: SubReducer<S, P>): ReduceRule<S> {
 	return { actionUtil, reducer };
 }
 
@@ -43,4 +60,14 @@ export function makeReducer<S>(initialState: S, rules: Array<ReduceRule<S>>): Re
 
 		return nextState;
 	};
+}
+
+interface TakeEveryFn<P> {
+	(payload: P): IterableIterator<any>;
+}
+
+export function* takeEvery<P>(actionUtil: ActionUtil<P>, fn: TakeEveryFn<P>) {
+	return yield _takeEvery(actionUtil.type, function*(action: {type: string, payload: P}) {
+		return yield fn(action.payload);
+	});
 }
