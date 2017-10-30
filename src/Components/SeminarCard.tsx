@@ -61,8 +61,9 @@ class SeminarCard extends React.Component<Props, State> {
 	render() {
 		return (
 			<div className={css(Styles.normal)}>
-				<p>{this.props.title}</p>
-				<p>{this.props.author}</p>
+				<p>title: {this.props.title}</p>
+				<p>author: {this.props.author}</p>
+				<p>contents: {this.props.content}</p>
 				<button onClick={this.toggle}>{this.state.isOpen ? 'Close' : 'Open'}</button>
 			</div>
 		);

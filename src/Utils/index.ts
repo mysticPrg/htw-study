@@ -2,7 +2,7 @@ import { takeEvery as _takeEvery } from 'redux-saga/effects';
 
 /* tslint:disable: no-any */
 interface Action {
-	type: any;
+	type: string;
 	payload?: any;
 }
 

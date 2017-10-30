@@ -14,14 +14,25 @@ function* fakeInit() {
 				title: `title${lastIndex}`,
 				content: `content${lastIndex}`
 			}));
-		}		
+		}
+		
+		yield put(SeminarAction.initDone.create());
+	});
+}
+
+function* handleSeminarCloseAndOpen() {
+	/* tslint:disable typedef */
+	yield takeEvery(SeminarAction.closeAndOpen, function*(ID) {
+	/* tslint:enable typedef */
+		yield put(SeminarAction.closeAll.create());
+		yield put(SeminarAction.open.create(ID));
 	});
 }
 
 function* handleSeminarRefresh() {
-/* tslint:disable typedef */
+	/* tslint:disable typedef */
 	yield takeEvery(SeminarAction.refresh, function*(payload) {
-/* tslint:enable typedef */
+	/* tslint:enable typedef */
 		yield put(SeminarAction.add.create({
 			id: ++lastIndex,
 			author: `author${lastIndex}`,
@@ -34,6 +45,7 @@ function* handleSeminarRefresh() {
 export default function*() {
 	yield all([
 		fakeInit(),
+		handleSeminarCloseAndOpen(),
 		handleSeminarRefresh()
 	]);
 }

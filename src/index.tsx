@@ -22,6 +22,8 @@ const store = createStore(
 	composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
 
+sagaMiddleware.run(rootSaga);
+
 // Render App
 ReactDOM.render(
 	<Provider store={store}>
@@ -30,7 +32,6 @@ ReactDOM.render(
 	document.getElementById('root') as HTMLElement
 );
 registerServiceWorker();
-sagaMiddleware.run(rootSaga);
 
 // Init system
 store.dispatch(SystemAction.init.create({}));
