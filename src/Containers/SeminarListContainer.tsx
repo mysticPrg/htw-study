@@ -39,14 +39,8 @@ const stateToProps = (state: RootState) => ({
 
 const actionToProps = (dispatch: Dispatch) => ({
 	onRefresh: () => dispatch(SeminarAction.refresh.create()),
-	onOpen: (id: number) => {
-		// dispatch(SeminarAction.closeAll.create());
-		dispatch(SystemAction.hashChangeRequest.create(id.toString()));
-	},
-	onCloseAll: () => {
-		dispatch(SystemAction.hashChangeRequest.create(''));
-		// dispatch(SeminarAction.closeAll.create());
-	},
+	onOpen: (id: number) => dispatch(SystemAction.hashChangeRequest.create(id.toString())),
+	onCloseAll: () => dispatch(SystemAction.hashChangeRequest.create('')),
 });
 
 export default connect(stateToProps, actionToProps)(SeminarListContainer);

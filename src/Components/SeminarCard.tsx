@@ -57,7 +57,7 @@ class SeminarCard extends React.Component<Props> {
 
 	render() {
 		return (
-			<div className={css(Styles.normal)}>
+			<div className={css(Styles.normal)} id={`${this.props.id}`}>
 				<p>title: {this.props.title}</p>
 				<p>author: {this.props.author}</p>
 				<p>contents: {this.props.content}</p>
