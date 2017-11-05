@@ -1,10 +1,10 @@
 import { Dispatch, Middleware, MiddlewareAPI } from 'redux';
 
-export interface ActionFlow {
+interface ActionFlow {
 	(): Promise<void>;
 }
 
-export interface ActionFlowMiddleware extends Middleware {
+interface ActionFlowMiddleware extends Middleware {
 	run(flow: ActionFlow): void;
 }
 

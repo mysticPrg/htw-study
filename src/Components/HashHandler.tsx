@@ -27,7 +27,11 @@ class HashHandler extends React.Component<Props, State> {
 	}
 	
 	private checkHash = () => {
-		const newHash = window.location.hash;
+		let newHash = window.location.hash;
+		if ( newHash.length > 0 ) {
+			newHash = newHash.substring(1);
+		}
+		
 		if ( this.state.hash !== newHash ) {
 			this.props.onHashChanged(newHash);
 			this.setState({

@@ -10,7 +10,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import './index.css';
 import App from './Components/App';
 import rootReducer from './Reducers';
-import { rootFlow } from './Flows';
+import rootFlow from './Flows';
 import { SystemAction } from './Actions';
 
 import registerServiceWorker from './registerServiceWorker';

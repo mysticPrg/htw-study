@@ -1,4 +1,5 @@
-import { takeEvery as _takeEvery } from 'redux-saga/effects';
+import { grab as _grab } from './ActionFlow';
+export { push } from './ActionFlow';
 
 /* tslint:disable: no-any */
 interface Action {
@@ -62,12 +63,8 @@ export function makeReducer<S>(initialState: S, rules: Array<ReduceRule<S>>): Re
 	};
 }
 
-interface TakeEveryFn<P> {
-	(payload: P): IterableIterator<any>;
-}
-
-export function* takeEvery<P>(actionUtil: ActionUtil<P>, fn: TakeEveryFn<P>) {
-	return yield _takeEvery(actionUtil.type, function*(action: {type: string, payload: P}) {
-		return yield fn(action.payload);
-	});
+export async function grab<P>(actionUtil: ActionUtil<P>)
+	: Promise<{action: {type: string, payload: P}, next: Function}> {
+	
+	return await _grab(actionUtil.type);
 }
