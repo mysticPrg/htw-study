@@ -6,10 +6,8 @@ let lastIndex = 0;
 
 export async function rootFlow() {
 	while ( true ) {
-		// await grab(SeminarAction.refresh.type);
-		const {action, next} = await grab(SeminarAction.refresh.type);
-		console.log(action, next);
-		// next();
+		const { next } = await grab(SeminarAction.refresh.type);
+		next();
 
 		await push(SeminarAction.add.create({
 			id: ++lastIndex,

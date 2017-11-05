@@ -12,7 +12,32 @@ interface Options {
 	run?: boolean;
 }
 
-/* tslint:disable: no-any */
+class AsyncQueue<T> {
+	list: T[] = [];
+	private lock: Promise<void>;
+	private key: Function;
+	
+	constructor() {
+		this.makeKey();
+	}
+
+	enque(item: T) {
+		this.list.push(item);
+		const prevKey = this.makeKey();
+		prevKey();
+	}
+
+	async deque(): Promise<T> {
+		await this.lock;
+		return <T> this.list.shift();
+	}
+
+	private makeKey() {
+		const prevKey = this.key;
+		this.lock = new Promise(resolve => { this.key = resolve; });
+		return prevKey;
+	}
+}
 
 interface GrabResolveResult { 
 	action: Action;
@@ -23,29 +48,51 @@ interface GrabResolver {
 	(result: GrabResolveResult): void;
 }
 
-const actionMap = new Map<any, GrabResolver[]>();
-
-const mainFlow = async <S>(api: MiddlewareAPI<S>, next: Dispatch<S>, action: Action) => {
-	if ( actionMap.has(action.type) ) {
-		let resolveList = <GrabResolver[]> actionMap.get(action.type);
+/* tslint:disable: no-any */
+const grabMap = new Map<any, GrabResolver[]>();
+/* tslint:enable: no-any */
+const grabFlow = async <S>(api: MiddlewareAPI<S>, next: Dispatch<S>, action: Action) => {
+	if ( grabMap.has(action.type) ) {
+		let resolveList = <GrabResolver[]> grabMap.get(action.type);
+		let nextDone = false;
 		resolveList.forEach(resolve => resolve({
 			action,
-			next: () => next(action)
+			next: () => {
+				if ( !nextDone ) {
+					nextDone = true;
+					next(action);
+				}
+			}
 		}));
 	} else {
 		next(action);
 	}
 };
 
+interface PushResolver {
+	action: Action;
+	resolve: Function;
+}
+
+const pushQueue = new AsyncQueue<PushResolver>();
+const pushFlow = async <S>(api: MiddlewareAPI<S>) => {
+	while ( true ) {
+		const resolver = await pushQueue.deque();
+		api.dispatch(resolver.action);
+		resolver.resolve();
+	}
+};
+
 const createActionFlow = (opt?: Options) => {
 	const actionFlowMiddleware = <ActionFlowMiddleware> function<S>(api: MiddlewareAPI<S>) {
+		pushFlow(api);
+
 		return (next: Dispatch<S>) => (action: Action) => {
-			mainFlow(api, next, action);
+			grabFlow(api, next, action);
 		};
 	};
 
 	actionFlowMiddleware.run = (flow: ActionFlow) => {
-		console.log('start!');
 		(async () => {
 			await flow();
 		})();
@@ -56,23 +103,23 @@ const createActionFlow = (opt?: Options) => {
 export default createActionFlow;
 
 export async function grab<AT>(actionType: AT) {
-	const waitForAction = new Promise<GrabResolveResult>(resolve => {
+	const waitForResolve = new Promise<GrabResolveResult>(resolve => {
 		let resolveList: GrabResolver[];
-		if ( actionMap.has(actionType) ) {
-			resolveList = <GrabResolver[]> actionMap.get(actionType);
+		if ( grabMap.has(actionType) ) {
+			resolveList = <GrabResolver[]> grabMap.get(actionType);
 		} else {
 			resolveList = [];
 		}
-
 		resolveList.push(resolve);
 
-		actionMap.set(actionType, resolveList);
+		grabMap.set(actionType, resolveList);
 	});
 
-	const result = await waitForAction;
-	return result;
+	return await waitForResolve;
 }
 
-export async function push<A>(action: A) {
-	return action;
+export async function push(action: Action) {
+	await new Promise<void>(resolve => {
+		pushQueue.enque({action, resolve});
+	});
 }
