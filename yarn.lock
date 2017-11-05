@@ -34,12 +34,6 @@
   version "16.0.18"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.18.tgz#c08eea79ada55bf10b5353e18c21797dd17afa23"
 
-"@types/redux-saga@^0.10.5":
-  version "0.10.5"
-  resolved "https://registry.yarnpkg.com/@types/redux-saga/-/redux-saga-0.10.5.tgz#80bf21078379ebc97387dbe56e44467b5677fa85"
-  dependencies:
-    redux-saga "*"
-
 abab@^1.0.3:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/abab/-/abab-1.0.4.tgz#5faad9c2c07f60dd76770f71cf025b62a63cfd4e"
@@ -4464,10 +4458,6 @@ reduce-function-call@^1.0.1:
 redux-devtools-extension@^2.13.2:
   version "2.13.2"
   resolved "https://registry.yarnpkg.com/redux-devtools-extension/-/redux-devtools-extension-2.13.2.tgz#e0f9a8e8dfca7c17be92c7124958a3b94eb2911d"
-
-redux-saga@*, redux-saga@^0.16.0:
-  version "0.16.0"
-  resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-0.16.0.tgz#0a231db0a1489301dd980f6f2f88d8ced418f724"
 
 redux@^3.6.0, redux@^3.7.2:
   version "3.7.2"
