@@ -7,6 +7,8 @@ import SeminarCard from './SeminarCard';
 interface Props {
 	readonly seminars: Seminar[];
 	readonly refresh: () => void;
+	readonly onOpen: (id: number) => void;
+	readonly onCloseAll: () => void;
 }
 
 const Styles = style.create({
@@ -28,6 +30,9 @@ class SeminarList extends React.Component<Props> {
 					title={s.title}
 					content={s.content}
 					author={s.author}
+					isOpen={s.isOpen}
+					onOpen={this.props.onOpen}
+					onClose={this.props.onCloseAll}
 				/>
 			</li>
 		));

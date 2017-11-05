@@ -4,12 +4,14 @@ import { connect } from 'react-redux';
 import RootState, { Seminar } from '../Stores';
 import SeminarList from '../Components/SeminarList';
 
-import { SeminarAction } from '../Actions';
+import { SeminarAction, SystemAction } from '../Actions';
 import { Dispatch } from '../Utils';
 
 interface Props {
 	readonly seminars: Seminar[];
 	readonly onRefresh: () => void;
+	readonly onOpen: (id: number) => void;
+	readonly onCloseAll: () => void;
 }
 
 class SeminarListContainer extends React.Component<Props> {
@@ -23,6 +25,8 @@ class SeminarListContainer extends React.Component<Props> {
 				<SeminarList
 					seminars={this.props.seminars}
 					refresh={this.props.onRefresh}
+					onOpen={this.props.onOpen}
+					onCloseAll={this.props.onCloseAll}
 				/>
 			</div>
 		);
@@ -34,7 +38,15 @@ const stateToProps = (state: RootState) => ({
 });
 
 const actionToProps = (dispatch: Dispatch) => ({
-	onRefresh: () => dispatch(SeminarAction.refresh.create())
+	onRefresh: () => dispatch(SeminarAction.refresh.create()),
+	onOpen: (id: number) => {
+		// dispatch(SeminarAction.closeAll.create());
+		dispatch(SystemAction.hashChangeRequest.create(id.toString()));
+	},
+	onCloseAll: () => {
+		dispatch(SystemAction.hashChangeRequest.create(''));
+		// dispatch(SeminarAction.closeAll.create());
+	},
 });
 
 export default connect(stateToProps, actionToProps)(SeminarListContainer);

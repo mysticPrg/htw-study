@@ -13,19 +13,12 @@ async function fakeInit() {
 			id: ++lastIndex,
 			author: `author${lastIndex}`,
 			title: `title${lastIndex}`,
-			content: `content${lastIndex}`
+			content: `content${lastIndex}`,
+			isOpen: false,
 		}));
 	}
 
 	push(SeminarAction.initDone.create());
-}
-
-async function handleSeminarCloseAndOpen() {
-	while ( true ) {
-		const { action } = await grab(SeminarAction.closeAndOpen);
-		await push(SeminarAction.closeAll.create());
-		await push(SeminarAction.open.create(action.payload));
-	}
 }
 
 async function handleSeminarRefresh() {
@@ -35,13 +28,13 @@ async function handleSeminarRefresh() {
 			id: ++lastIndex,
 			author: `author${lastIndex}`,
 			title: `title${lastIndex}`,
-			content: `content${lastIndex}`
+			content: `content${lastIndex}`,
+			isOpen: false,
 		}));
 	}
 }
 
 export default async function seminarFlow() {
 	fakeInit();
-	handleSeminarCloseAndOpen();
 	handleSeminarRefresh();
 }

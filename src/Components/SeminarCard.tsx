@@ -6,10 +6,10 @@ interface Props {
 	readonly title: string;
 	readonly author: string;
 	readonly content: string;
-}
-
-interface State {
 	readonly isOpen: boolean;
+
+	readonly onOpen: (id: number) => void;
+	readonly onClose: () => void;
 }
 
 const colorKeyframes = {
@@ -48,14 +48,11 @@ const Styles = style.create({
 	}
 });
 
-class SeminarCard extends React.Component<Props, State> {
-
-	readonly state: State = {
-		isOpen: false
-	};
-
+class SeminarCard extends React.Component<Props> {
 	constructor(props: Props) {
 		super(props);
+
+		this.onToggle = this.onToggle.bind(this);
 	}
 
 	render() {
@@ -64,16 +61,16 @@ class SeminarCard extends React.Component<Props, State> {
 				<p>title: {this.props.title}</p>
 				<p>author: {this.props.author}</p>
 				<p>contents: {this.props.content}</p>
-				<button onClick={this.toggle}>{this.state.isOpen ? 'Close' : 'Open'}</button>
+				<button onClick={this.onToggle}>{this.props.isOpen ? 'Close' : 'Open'}</button>
 			</div>
 		);
 	}
 
-	private toggle = () => {
-		this.setState({
-			...this.state,
-			isOpen: !this.state.isOpen
-		});
+	private onToggle = () => {
+		if ( this.props.isOpen ) {
+			this.props.onClose();
+		}
+		this.props.onOpen(this.props.id);
 	}
 }
 

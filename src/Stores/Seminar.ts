@@ -3,12 +3,15 @@ export interface Seminar {
 	title: string;
 	content: string;
 	author: string;
+	isOpen: boolean;
 }
 
 export interface SeminarState {
 	seminars: Seminar[];
+	openCardID: number;
 }
 
 export const seminarInitialState: SeminarState = {
-	seminars: []
+	seminars: [],
+	openCardID: NaN,
 };

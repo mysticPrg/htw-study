@@ -7,24 +7,48 @@ async function handleInitDone() {
 	await push(SystemAction.initDone.create());
 }
 
-async function handleHashChanged() {
-	const { action: firstAction, next: nextForFirstHashchanged } = await grab(SystemAction.hashChanged);
-	const { next: nextForInitDone } = await grab(SystemAction.initDone);
-	nextForInitDone();
-	nextForFirstHashchanged();
+async function handleHashChangeRequest() {
+	while ( true ) {
+		const { action } = await grab(SystemAction.hashChangeRequest);
+		window.location.hash = `#${action.payload}`;
+	}
+}
 
-	let ID = Number.parseInt(firstAction.payload);
-	push(SeminarAction.closeAndOpen.create(ID));
+async function handleHashChanged() {
+	let isInitDone = false;
+	let lastHash = null;
+	(async () => {
+		while ( !isInitDone ) {
+			const { action } = await grab(SystemAction.hashChanged);
+			lastHash = action.payload;
+		}
+	})();
+
+	const { next: systemInit } = await grab(SystemAction.initDone);
+	isInitDone = false;
+	systemInit();
+
+	function openCard(hash: string) {
+		push(SeminarAction.closeAll.create());
+
+		let ID = Number.parseInt(hash);
+		if ( !Number.isNaN(ID) ) {
+			push(SeminarAction.open.create(ID));
+		}
+	}
+
+	if ( lastHash ) {
+		openCard(lastHash);
+	}
 
 	while ( true ) {
-		const { action, next } = await grab(SystemAction.hashChanged);
-		ID = Number.parseInt(action.payload);
-		push(SeminarAction.closeAndOpen.create(ID));
-		next();
+		const { action } = await grab(SystemAction.hashChanged);
+		openCard(action.payload);
 	}
 }
 
 export default async function systemFlow() {
 	handleInitDone();
+	handleHashChangeRequest();
 	handleHashChanged();
 }
