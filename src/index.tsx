@@ -3,26 +3,26 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import createSagaMiddleware from 'redux-saga';
+import createActionFlow from './Utils/ActionFlow';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 // modules
 import './index.css';
 import App from './Components/App';
 import rootReducer from './Reducers';
-import rootSaga from './Sagas';
+import { rootFlow } from './Flows';
 import { SystemAction } from './Actions';
 
 import registerServiceWorker from './registerServiceWorker';
 
 // Setting Store and Middlewares
-const sagaMiddleware = createSagaMiddleware();
+const actionFlow = createActionFlow();
 const store = createStore(
 	rootReducer,
-	composeWithDevTools(applyMiddleware(sagaMiddleware))
+	composeWithDevTools(applyMiddleware(actionFlow))
 );
 
-sagaMiddleware.run(rootSaga);
+actionFlow.run(rootFlow);
 
 // Render App
 ReactDOM.render(
