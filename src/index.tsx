@@ -34,4 +34,4 @@ ReactDOM.render(
 registerServiceWorker();
 
 // Init system
-store.dispatch(SystemAction.init.create({}));
+store.dispatch(SystemAction.init.create());

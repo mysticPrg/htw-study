@@ -1,4 +1,4 @@
-import { Dispatch, Middleware, MiddlewareAPI, Action } from 'redux';
+import { Dispatch, Middleware, MiddlewareAPI } from 'redux';
 
 export interface ActionFlow {
 	(): Promise<void>;
@@ -39,8 +39,9 @@ class AsyncQueue<T> {
 	}
 }
 
+/* tslint:disable: no-any */
 interface GrabResolveResult { 
-	action: Action;
+	action: any;
 	next: Function;
 }
 
@@ -48,10 +49,8 @@ interface GrabResolver {
 	(result: GrabResolveResult): void;
 }
 
-/* tslint:disable: no-any */
 const grabMap = new Map<any, GrabResolver[]>();
-/* tslint:enable: no-any */
-const grabFlow = async <S>(api: MiddlewareAPI<S>, next: Dispatch<S>, action: Action) => {
+const grabFlow = async <S>(api: MiddlewareAPI<S>, next: Dispatch<S>, action: any) => {
 	if ( grabMap.has(action.type) ) {
 		let resolveList = <GrabResolver[]> grabMap.get(action.type);
 		let nextDone = false;
@@ -70,7 +69,7 @@ const grabFlow = async <S>(api: MiddlewareAPI<S>, next: Dispatch<S>, action: Act
 };
 
 interface PushResolver {
-	action: Action;
+	action: any;
 	resolve: Function;
 }
 
@@ -87,7 +86,7 @@ const createActionFlow = (opt?: Options) => {
 	const actionFlowMiddleware = <ActionFlowMiddleware> function<S>(api: MiddlewareAPI<S>) {
 		pushFlow(api);
 
-		return (next: Dispatch<S>) => (action: Action) => {
+		return (next: Dispatch<S>) => (action: any) => {
 			grabFlow(api, next, action);
 		};
 	};
@@ -118,7 +117,7 @@ export async function grab<AT>(actionType: AT) {
 	return await waitForResolve;
 }
 
-export async function push(action: Action) {
+export async function push(action: any) {
 	await new Promise<void>(resolve => {
 		pushQueue.enque({action, resolve});
 	});
