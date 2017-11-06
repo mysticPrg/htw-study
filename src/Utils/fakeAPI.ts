@@ -10,13 +10,6 @@ function addEventListenerPromise(target: any, event: string) {
 }
 /* tslint:enable: no-any */
 
-interface SeminarInfo {
-	id: number;
-	author: string;
-	content: string;
-	title: string;
-}
-
 async function getFromAPI(url: string) {
 	const res = await fetch(url);
 	const blob = await res.blob();
@@ -37,6 +30,14 @@ async function getFromAPI(url: string) {
 
 const serverURL = 'https://my-json-server.typicode.com/mysticPrg/fakeAPI';
 
+interface SeminarInfo {
+	id: number;
+	author: string;
+	content: string;
+	title: string;
+}
+
 export const loadSeminar = async () => {
-	return await getFromAPI(`${serverURL}/seminar`);
+	const res = await getFromAPI(`${serverURL}/seminar`);
+	return <SeminarInfo[]> res.body;
 };

@@ -9,8 +9,8 @@ async function seminarInit() {
 	next();
 	
 	const res = await loadSeminar();
-	for ( let i = 0 ; i < res.body.length ; i++ ) {
-		const seminarInfo = res.body[i];
+	for ( let i = 0 ; i < res.length ; i++ ) {
+		const seminarInfo = res[i];
 		await push(SeminarAction.add.create({
 			...seminarInfo,
 			isOpen: false,
