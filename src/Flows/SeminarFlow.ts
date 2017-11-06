@@ -1,23 +1,23 @@
 import { grab, push } from '../Utils';
-
+import { loadSeminar } from '../Utils/fakeAPI';
 import { SystemAction, SeminarAction } from '../Actions';
 
 let lastIndex = 0;
 
-async function fakeInit() {
+async function seminarInit() {
 	const { next } = await grab(SystemAction.init);
 	next();
 	
-	for ( let i = 0 ; i < 5 ; i++ ) {
+	const res = await loadSeminar();
+	for ( let i = 0 ; i < res.body.length ; i++ ) {
+		const seminarInfo = res.body[i];
 		await push(SeminarAction.add.create({
-			id: ++lastIndex,
-			author: `author${lastIndex}`,
-			title: `title${lastIndex}`,
-			content: `content${lastIndex}`,
+			...seminarInfo,
 			isOpen: false,
 		}));
+		lastIndex++;
 	}
-
+	
 	push(SeminarAction.initDone.create());
 }
 
@@ -25,7 +25,7 @@ async function handleSeminarRefresh() {
 	while ( true ) {
 		await grab(SeminarAction.refresh);
 		await push(SeminarAction.add.create({
-			id: ++lastIndex,
+			id: lastIndex++,
 			author: `author${lastIndex}`,
 			title: `title${lastIndex}`,
 			content: `content${lastIndex}`,
@@ -35,6 +35,6 @@ async function handleSeminarRefresh() {
 }
 
 export default async function seminarFlow() {
-	fakeInit();
+	seminarInit();
 	handleSeminarRefresh();
 }
