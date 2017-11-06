@@ -5,6 +5,17 @@ import { SystemAction, SeminarAction } from '../Actions';
 async function handleInitDone() {
 	await grab(SeminarAction.initDone);
 	await push(SystemAction.initDone.create());
+	
+	const url = 'https://my-json-server.typicode.com/mysticPrg/fakeAPI/seminar';
+	const res = await fetch(url);
+	if ( res.ok ) {
+		const blob = await res.blob();
+		const reader = new FileReader();
+		reader.addEventListener('loadend', () => {
+			console.log(reader.result);
+		});
+		reader.readAsText(blob);
+	}
 }
 
 async function handleHashChangeRequest() {
