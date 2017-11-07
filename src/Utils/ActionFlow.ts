@@ -31,6 +31,10 @@ export class AsyncQueue<T> {
 		await this.lock;
 		return <T> this.list.shift();
 	}
+	
+	clean(): void {
+		this.list = [];
+	}
 
 	private makeKey() {
 		const prevKey = this.key;
@@ -87,24 +91,12 @@ const pushFlow = async <S>(api: MiddlewareAPI<S>) => {
 	}
 };
 
-// interface GetStateResolver {
-// 	resolve: Function;
-// }
-// 
-// const getStateQueue = new AsyncQueue<GetStateResolver>();
-// const getStateFlow = async <S>(api: MiddlewareAPI<S>) => {
-// 	while ( true ) {
-// 		const resolver = await getStateQueue.deque();
-// 		resolver.resolve(api.getState());
-// 	}
-// };
-
-// let getStateFn: any = null;
+let getStateFn: Function;
 
 const createActionFlow = (opt?: Options) => {
 	const actionFlowMiddleware = <ActionFlowMiddleware> function<S>(api: MiddlewareAPI<S>) {
 		pushFlow(api);
-		// getStateFn = api.getState.bind(api);
+		getStateFn = api.getState;
 
 		return (next: Dispatch<S>) => (action: any) => {
 			grabFlow(api, next, action);
@@ -172,6 +164,6 @@ export async function push(action: any) {
 	await new Promise<void>(resolve => pushQueue.enque({action, resolve}) );
 }
 
-// export async function getState() {
-// 	return getStateFn();
-// }
+export async function getState() {
+	return getStateFn();
+}

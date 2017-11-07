@@ -1,3 +1,5 @@
+import { Seminar } from '../Stores';
+
 /* tslint:disable: no-any */
 function addEventListenerPromise(target: any, event: string) {
 	return new Promise((resolve, reject) => {
@@ -20,7 +22,7 @@ async function getFromAPI(url: string) {
 	await p;
 
 	return {
-		body: <SeminarInfo[]> JSON.parse(reader.result),
+		body: JSON.parse(reader.result),
 		headers: res.headers,
 		ok: res.ok,
 		status: res.status,
@@ -30,14 +32,10 @@ async function getFromAPI(url: string) {
 
 const serverURL = 'https://my-json-server.typicode.com/mysticPrg/fakeAPI';
 
-interface SeminarInfo {
-	id: number;
-	author: string;
-	content: string;
-	title: string;
-}
-
 export const loadSeminar = async () => {
 	const res = await getFromAPI(`${serverURL}/seminar`);
-	return <SeminarInfo[]> res.body;
+	return <Seminar[]> res.body.map((data: Seminar) => ({
+		...data,
+		isOpen: false
+	}));
 };

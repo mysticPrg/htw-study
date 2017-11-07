@@ -1,7 +1,7 @@
-import { grab as _grab, /* getState as _getState */ } from './ActionFlow';
+import { grab as _grab, getState as _getState } from './ActionFlow';
 export { push } from './ActionFlow';
 
-// import RootState from '../Stores';
+import RootState from '../Stores';
 
 /* tslint:disable: no-any */
 interface Action {
@@ -71,6 +71,6 @@ export async function grab<P>(actionUtil: ActionUtil<P>)
 	return await _grab(actionUtil.type);
 }
 
-// export async function getState(): Promise<RootState> {
-// 	return <RootState> await _getState();
-// }
+export async function getState(): Promise<RootState> {
+	return <RootState> await _getState();
+}

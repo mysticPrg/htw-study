@@ -1,31 +1,26 @@
-import { grab, push } from '../Utils';
+import { grab, push, getState } from '../Utils';
 
 import { SystemAction, SeminarAction } from '../Actions';
 
 async function handleInitDone() {
 	await grab(SeminarAction.initDone);
+	
 	await push(SystemAction.initDone.create());
 }
 
-async function handleHashChangeRequest() {
-	while ( true ) {
-		const { action } = await grab(SystemAction.hashChangeRequest);
-		window.location.hash = `#${action.payload}`;
-	}
-}
-
 async function handleHashChanged() {
-	let isInitDone = false;
 	let lastHash = null;
+	
 	(async () => {
-		while ( !isInitDone ) {
+		let state;
+		do {
 			const { action } = await grab(SystemAction.hashChanged);
 			lastHash = action.payload;
-		}
+			state = await getState();
+		} while ( !state.system.init );
 	})();
 
 	const { next: systemInit } = await grab(SystemAction.initDone);
-	isInitDone = false;
 	systemInit();
 
 	function openCard(hash: string) {
@@ -49,6 +44,5 @@ async function handleHashChanged() {
 
 export default async function systemFlow() {
 	handleInitDone();
-	handleHashChangeRequest();
 	handleHashChanged();
 }

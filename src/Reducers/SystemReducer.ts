@@ -9,4 +9,9 @@ export default makeReducer(systemInitialState, [
 			init: true
 		};
 	}),
+	
+	makeReduceRule(SystemAction.hashChangeRequest, (state, hash) => {
+		window.location.hash = `#${hash}`;
+		return state;
+	}),
 ]);
