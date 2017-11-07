@@ -12,8 +12,15 @@ interface Props {
 }
 
 const Styles = style.create({
+	container: {
+		display: 'flex',
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+		width: '1300px',
+	},
+	
 	list: {
-		display: 'block'
+		display: 'flex',
 	}
 });
 
@@ -40,7 +47,7 @@ class SeminarList extends React.Component<Props> {
 		return (
 			<div>
 				<button onClick={this.props.refresh}>Refresh</button>
-				<ol>{cards}</ol>
+				<ol className={css(Styles.container)}>{cards}</ol>
 			</div>
 		);
 	}
