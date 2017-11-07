@@ -12,39 +12,21 @@ interface Props {
 	readonly onClose: () => void;
 }
 
-const colorKeyframes = {
-	'0%': {
-		paddingLeft: 0,
-	},
-
-	'100%': {
-		color: 'red',
-		paddingLeft: '10px',
-	}
-};
-
-const colorKeyframesBack = {
-	'100%': {
-		paddingLeft: 0,
-	},
-
-	'0%': {
-		color: 'red',
-		paddingLeft: '10px',
-	}
-};
-
 const Styles = style.create({
-	normal: {
-		color: 'blue',
-		animationName: colorKeyframesBack,
-		animationDuration: '0.2s',
-		animationFillMode: 'forwards',
-		':hover': {
-			animationName: colorKeyframes,
-			animationDuration: '0.2s',
-			animationFillMode: 'forwards',
-		},
+	base: {
+		border: '1px solid black',
+		width: '300px',
+		height: '200px',
+		margin: '10px',
+		padding: '10px',
+		transition: 'height 0.2s',
+	},
+	
+	closed: {
+	},
+	
+	opened: {
+		height: '400px',
 	}
 });
 
@@ -56,12 +38,14 @@ class SeminarCard extends React.Component<Props> {
 	}
 
 	render() {
+		const divOpenStyle = this.props.isOpen ? Styles.opened : Styles.closed;
+		const divStyle = css(Styles.base, divOpenStyle);
+		
 		return (
-			<div className={css(Styles.normal)} id={`${this.props.id}`}>
+			<div className={divStyle} id={`${this.props.id}`} onClick={this.onToggle}>
 				<p>title: {this.props.title}</p>
 				<p>author: {this.props.author}</p>
 				<p>contents: {this.props.content}</p>
-				<button onClick={this.onToggle}>{this.props.isOpen ? 'Close' : 'Open'}</button>
 			</div>
 		);
 	}
