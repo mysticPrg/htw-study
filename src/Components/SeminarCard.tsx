@@ -67,10 +67,11 @@ class SeminarCard extends React.Component<Props> {
 	}
 
 	private onToggle = () => {
-		if ( this.props.isOpen ) {
+		if ( !this.props.isOpen ) {
+			this.props.onOpen(this.props.id);
+		} else {
 			this.props.onClose();
 		}
-		this.props.onOpen(this.props.id);
 	}
 }
 
