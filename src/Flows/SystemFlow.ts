@@ -10,9 +10,9 @@ async function handleInitDone() {
 
 async function openCard(hash: string) {
 	await push(SeminarAction.closeAll.create());
-
-	let ID = Number.parseInt(hash);
-	if ( !Number.isNaN(ID) ) {
+	
+	let ID = parseInt(hash, 10);
+	if ( !isNaN(ID) ) {
 		await push(SeminarAction.open.create(ID));
 	}
 }

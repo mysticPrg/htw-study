@@ -36,6 +36,10 @@ class SeminarCard extends React.Component<Props> {
 
 		this.onToggle = this.onToggle.bind(this);
 	}
+	
+	shouldComponentUpdate() {
+		return true;
+	}
 
 	render() {
 		const divOpenStyle = this.props.isOpen ? Styles.opened : Styles.closed;

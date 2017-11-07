@@ -41,6 +41,8 @@ export default makeReducer(seminarInitialState, [
 			})
 			.toArray();
 
+		console.log(seminars);
+
 		return {
 			...state,
 			seminars,
