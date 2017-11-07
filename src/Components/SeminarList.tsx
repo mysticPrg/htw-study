@@ -16,7 +16,7 @@ const Styles = style.create({
 		display: 'flex',
 		flexDirection: 'row',
 		flexWrap: 'wrap',
-		width: '1300px',
+		width: '100%',
 	},
 	
 	list: {

@@ -37,19 +37,19 @@ class SeminarCard extends React.Component<Props> {
 		this.onToggle = this.onToggle.bind(this);
 	}
 	
-	shouldComponentUpdate() {
-		return true;
-	}
-
 	render() {
 		const divOpenStyle = this.props.isOpen ? Styles.opened : Styles.closed;
 		const divStyle = css(Styles.base, divOpenStyle);
 		
 		return (
 			<div className={divStyle} id={`${this.props.id}`} onClick={this.onToggle}>
-				<p>title: {this.props.title}</p>
-				<p>author: {this.props.author}</p>
-				<p>contents: {this.props.content}</p>
+				<div>
+					<p>title: {this.props.title}</p>
+					<p>author: {this.props.author}</p>
+				</div>
+				<div>
+					<p>contents: {this.props.content}</p>
+				</div>
 			</div>
 		);
 	}
