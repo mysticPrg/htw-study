@@ -9,9 +9,11 @@ export interface Seminar {
 export interface SeminarState {
 	seminars: Seminar[];
 	openCardID: number;
+	showList: Seminar[];
 }
 
 export const seminarInitialState: SeminarState = {
 	seminars: [],
 	openCardID: NaN,
+	showList: [],
 };

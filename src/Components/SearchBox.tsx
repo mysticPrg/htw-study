@@ -11,12 +11,12 @@ class SearchBox extends React.Component<Props> {
 	render() {
 		return (
 			<div>
-				<input type="search" ref={ref$ => this.searchElm = ref$} onInput={() => this.onSearch()}/>
+				<input type="search" ref={ref$ => this.searchElm = ref$} onChange={this.onSearch}/>
 			</div>
 		);
 	}
 	
-	onSearch() {
+	private onSearch = () => {
 		if ( this.searchElm ) {
 			this.props.onSearch(this.searchElm.value);
 		}

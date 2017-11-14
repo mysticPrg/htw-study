@@ -18,6 +18,7 @@ async function seminarInit() {
 		lastIndex++;
 	}
 	
+	push(SeminarAction.search.create(''));
 	push(SeminarAction.initDone.create());
 }
 
@@ -34,7 +35,16 @@ async function handleSeminarRefresh() {
 	}
 }
 
+async function handleSeminarSearch() {
+	while ( true ) {
+		const { next } = await grab(SeminarAction.search);
+		await push(SeminarAction.closeAll.create());
+		next();
+	}
+}
+
 export default async function seminarFlow() {
 	seminarInit();
 	handleSeminarRefresh();
+	handleSeminarSearch();
 }
