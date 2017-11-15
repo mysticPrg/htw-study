@@ -127,7 +127,6 @@ if ( isIE() ) {
 				const resolver = await pushQueue.deque();
 				api.dispatch(resolver.action);
 				resolver.resolve();
-				console.log(resolver.action);
 			}
 			await sleep(33);
 		}
