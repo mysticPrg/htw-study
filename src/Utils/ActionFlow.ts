@@ -19,19 +19,18 @@ const sleep = async (time: Number) => {
 	await new Promise(resolve => setTimeout(resolve, time));
 };
 
-interface Queue<T> {
-	enque(item: T): Promise<void>;
-	deque(): Promise<T>;
-	isEmpty(): boolean;
-}
-
-class SyncQueue<T> implements Queue<T> {
-	private list: T[] = [];
+abstract class Queue<T> {
+	protected list: T[] = [];
+	
+	abstract enque(item: T): Promise<void>;
+	abstract deque(): Promise<T>;
 	
 	isEmpty() {
 		return (this.list.length === 0);
 	}
-	
+}
+
+class SyncQueue<T> extends Queue<T> {
 	async enque(item: T) {
 		this.list.push(item);
 	}
@@ -41,12 +40,13 @@ class SyncQueue<T> implements Queue<T> {
 	}
 }
 
-export class AsyncQueue<T> implements Queue<T> {
-	private list: T[] = [];
+export class AsyncQueue<T> extends Queue<T> {
 	private lock: Promise<void>;
 	private key: Function;
 	
 	constructor() {
+		super();
+		
 		this.makeKey();
 	}
 	
@@ -115,15 +115,6 @@ interface PushResolver {
 	action: any;
 	resolve: Function;
 }
-
-// const pushQueue: Queue<T> = new AsyncQueue<PushResolver>();
-// const pushFlow = async <S>(api: MiddlewareAPI<S>) => {
-// 	while ( true ) {
-// 		const resolver = await pushQueue.deque();
-// 		api.dispatch(resolver.action);
-// 		resolver.resolve();
-// 	}
-// };
 
 let pushQueue: Queue<PushResolver>;
 let pushFlow: <S>(api: MiddlewareAPI<S>) => Promise<void>;
