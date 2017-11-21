@@ -18,7 +18,9 @@ interface State {
 
 const Styles = style.create({
 	base: {
-		outline: '1px solid black',
+		// outline: '1px solid black',
+		backgroundColor: '#FFFFFF',
+		boxShadow: '0 5px 15px 0px #0000002b',
 		width: '300px',
 		height: '200px',
 		margin: '10px',
