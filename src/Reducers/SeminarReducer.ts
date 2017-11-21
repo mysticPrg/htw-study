@@ -9,27 +9,47 @@ export default makeReducer(seminarInitialState, [
 		const seminars = List(state.seminars)
 		.push(seminarInfo)
 		.toArray();
-
+		
 		return {
 			...state,
-			seminars
+			seminars,
+		};
+	}),
+	
+	makeReduceRule(SeminarAction.search, (state, keyword) => {
+		let showList;
+		if ( keyword === '' ) {
+			showList = List(state.seminars).toArray();
+		} else {
+			showList = List(state.seminars)
+				.filter((seminar: Seminar) => {
+					const title = (seminar.title.search(keyword) !== -1);
+					const author = (seminar.author.search(keyword) !== -1);
+					return title || author;
+				})
+				.toArray();
+		}
+			
+		return {
+			...state,
+			showList,
 		};
 	}),
 
 	makeReduceRule(SeminarAction.closeAll, state => {
-		const seminars = List(state.seminars)
+		const showList = List(state.showList)
 			.map((seminar: Seminar) => ({...seminar, isOpen: false}))
 			.toArray();
 
 		return {
 			...state,
-			seminars,
+			showList,
 			openCardID: NaN
 		};
 	}),
 
 	makeReduceRule(SeminarAction.open, (state, id) => {
-		const seminars = List(state.seminars)
+		const showList = List(state.showList)
 			.map((seminar: Seminar) => {
 				if ( seminar.id === id ) {
 					return {
@@ -43,7 +63,7 @@ export default makeReducer(seminarInitialState, [
 
 		return {
 			...state,
-			seminars,
+			showList,
 			openCardID: id
 		};
 	}),

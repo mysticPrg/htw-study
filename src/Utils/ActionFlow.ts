@@ -11,13 +11,47 @@ interface ActionFlowMiddleware extends Middleware {
 interface Options {
 }
 
-export class AsyncQueue<T> {
-	list: T[] = [];
+function isIE() {
+	return (navigator.userAgent.search('Trident') !== -1);
+}
+
+const sleep = async (time: Number) => {
+	await new Promise(resolve => setTimeout(resolve, time));
+};
+
+abstract class Queue<T> {
+	protected list: T[] = [];
+	
+	abstract enque(item: T): Promise<void>;
+	abstract deque(): Promise<T>;
+	
+	isEmpty() {
+		return (this.list.length === 0);
+	}
+}
+
+class SyncQueue<T> extends Queue<T> {
+	async enque(item: T) {
+		this.list.push(item);
+	}
+	
+	async deque() {
+		return <T> this.list.shift();
+	}
+}
+
+export class AsyncQueue<T> extends Queue<T> {
 	private lock: Promise<void>;
 	private key: Function;
 	
 	constructor() {
+		super();
+		
 		this.makeKey();
+	}
+	
+	isEmpty() {
+		return (this.list.length === 0);
 	}
 
 	async enque(item: T) {
@@ -82,14 +116,31 @@ interface PushResolver {
 	resolve: Function;
 }
 
-const pushQueue = new AsyncQueue<PushResolver>();
-const pushFlow = async <S>(api: MiddlewareAPI<S>) => {
-	while ( true ) {
-		const resolver = await pushQueue.deque();
-		api.dispatch(resolver.action);
-		resolver.resolve();
-	}
-};
+let pushQueue: Queue<PushResolver>;
+let pushFlow: <S>(api: MiddlewareAPI<S>) => Promise<void>;
+
+if ( isIE() ) {
+	pushQueue = new SyncQueue<PushResolver>();
+	pushFlow = async <S>(api: MiddlewareAPI<S>) => {
+		while ( true ) {
+			while ( !pushQueue.isEmpty() ) {
+				const resolver = await pushQueue.deque();
+				api.dispatch(resolver.action);
+				resolver.resolve();
+			}
+			await sleep(33);
+		}
+	};
+} else {
+	pushQueue = new AsyncQueue<PushResolver>();
+	pushFlow = async <S>(api: MiddlewareAPI<S>) => {
+		while ( true ) {
+			const resolver = await pushQueue.deque();
+			api.dispatch(resolver.action);
+			resolver.resolve();
+		}
+	};
+}
 
 let getStateFn: Function;
 

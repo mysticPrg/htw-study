@@ -10,4 +10,5 @@ export const SeminarAction = {
 	initDone: makeActionUtil('SEMINAR.INIT_DONE'),
 	
 	refresh: makeActionUtil('SEMINAR.REFRESH'),
+	search: makeActionUtil<string>('SEMINAR.SEARCH'),
 };

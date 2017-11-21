@@ -34,7 +34,7 @@ class SeminarListContainer extends React.Component<Props> {
 }
 
 const stateToProps = (state: RootState) => ({
-	seminars: state.seminar.seminars
+	seminars: state.seminar.showList
 });
 
 const actionToProps = (dispatch: Dispatch) => ({
