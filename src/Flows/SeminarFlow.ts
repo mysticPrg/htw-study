@@ -8,14 +8,20 @@ async function seminarInit() {
 	const { next } = await grab(SystemAction.init);
 	next();
 	
-	const res = await loadSeminar();
-	for ( let i = 0 ; i < res.length ; i++ ) {
-		const seminarInfo = res[i];
-		await push(SeminarAction.add.create({
-			...seminarInfo,
-			isOpen: false,
-		}));
-		lastIndex++;
+	let res = null;
+	try {
+		res = await loadSeminar();
+	} catch (err) { /* ignore */ }
+
+	if ( res ) {
+		for ( let i = 0 ; i < res.length ; i++ ) {
+			const seminarInfo = res[i];
+			await push(SeminarAction.add.create({
+				...seminarInfo,
+				isOpen: false,
+			}));
+			lastIndex++;
+		}
 	}
 	
 	push(SeminarAction.search.create(''));
