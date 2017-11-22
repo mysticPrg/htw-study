@@ -13,13 +13,18 @@ interface Props {
 
 const Styles = style.create({
 	container: {
+		padding: '10px',
+	},
+
+	list: {
 		display: 'flex',
 		flexDirection: 'row',
 		flexWrap: 'wrap',
 		width: '100%',
+		padding: '0px',
 	},
 	
-	list: {
+	listItem: {
 		display: 'flex',
 	}
 });
@@ -31,7 +36,7 @@ class SeminarList extends React.Component<Props> {
 
 	render() {
 		const cards = this.props.seminars.map((s, idx) => (
-			<li key={idx} className={css(Styles.list)}>
+			<li key={idx} className={css(Styles.listItem)}>
 				<SeminarCard
 					id={s.id}
 					title={s.title}
@@ -47,7 +52,7 @@ class SeminarList extends React.Component<Props> {
 		return (
 			<div>
 				<button onClick={this.props.refresh}>Refresh</button>
-				<ol className={css(Styles.container)}>{cards}</ol>
+				<ol className={css(Styles.list)}>{cards}</ol>
 			</div>
 		);
 	}

@@ -3,6 +3,7 @@ import { StyleSheet, css } from 'aphrodite';
 
 import SearchContainer from '../Containers/SearchContainer';
 const bg = require('../Resources/header_bg.jpg');
+const logo = require('../Resources/logo.png');
 
 const styles = StyleSheet.create({
 	header: {
@@ -14,6 +15,7 @@ const styles = StyleSheet.create({
 		backgroundPositionY: 'center',
 		display: 'flex',
 		flexDirection: 'column',
+		boxShadow: '0 5px 15px 0px #0000002b',
 	},
 
 	title: {
@@ -23,7 +25,14 @@ const styles = StyleSheet.create({
 		margin: 'auto',
 		outline: '1px solid #FFFFFF',
 		padding: '25px',
+		display: 'flex',
+		backgroundColor: '#e4e4e48c',
+		outlineOffset: '10px',
 	},
+
+	logo: {
+		margin: 'auto',
+	}
 });
 
 interface Props {
@@ -41,7 +50,10 @@ class Header extends React.Component<Props> {
 	render() {
 		return (
 			<div id="header" className={css(styles.header)}>
-				<div className={css(styles.title)}>{this.props.title}</div>
+				{/* <div className={css(styles.title)}>{this.props.title}</div> */}
+				<div className={css(styles.title)}>
+					<img src={logo} className={css(styles.logo)} />
+				</div>
 				<SearchContainer />
 			</div>
 		);
