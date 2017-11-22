@@ -7,7 +7,7 @@ import createActionFlow from './Utils/ActionFlow';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 // modules
-import './index.css';
+import './Resources/index.css';
 import App from './Components/App';
 import rootReducer from './Reducers';
 import rootFlow from './Flows';
