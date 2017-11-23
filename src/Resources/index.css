@@ -1,5 +1,8 @@
+@import url(http://fonts.googleapis.com/earlyaccess/jejugothic.css);
+
 body {
 	margin: 0;
 	padding: 0;
 	background-color: #e4e4e4;
+	font-family: 'Jeju Gothic', serif;
 }

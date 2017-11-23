@@ -22,6 +22,7 @@ const Styles = style.create({
 		flexWrap: 'wrap',
 		width: '100%',
 		padding: '0px',
+		justifyContent: 'center',
 	},
 	
 	listItem: {

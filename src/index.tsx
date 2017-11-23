@@ -15,12 +15,23 @@ import { SystemAction } from './Actions';
 
 import registerServiceWorker from './registerServiceWorker';
 
+const dev = true;
+
 // Setting Store and Middlewares
 const actionFlow = createActionFlow();
-const store = createStore(
-	rootReducer,
-	composeWithDevTools(applyMiddleware(actionFlow))
-);
+let store;
+
+if ( dev ) {
+	store = createStore(
+		rootReducer,
+		composeWithDevTools(applyMiddleware(actionFlow))
+	);
+} else {
+	store = createStore(
+		rootReducer,
+		applyMiddleware(actionFlow)
+	);
+}
 
 actionFlow.run(rootFlow);
 
@@ -31,7 +42,10 @@ ReactDOM.render(
 	</Provider>,
 	document.getElementById('root') as HTMLElement
 );
-registerServiceWorker();
+
+if ( !dev ) {
+	registerServiceWorker();
+}
 
 // Init system
 store.dispatch(SystemAction.init.create());

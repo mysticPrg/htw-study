@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet as style, css } from 'aphrodite';
+import { StyleSheet, css } from 'aphrodite';
 
 interface Props {
 	readonly id: number;
@@ -16,34 +16,55 @@ interface State {
 	height: number;
 }
 
-const Styles = style.create({
-	base: {
+const Styles = StyleSheet.create({
+	container: {
 		backgroundColor: '#FFFFFF',
-		boxShadow: '0 5px 15px 0px #0000002b',
+		boxShadow: '0 5px 15px 0 #0000002b',
 		width: '300px',
 		height: '200px',
 		margin: '10px',
-		padding: '10px',
-		transition: 'height 0.2s, background-color 0.2s, outline 0.2s',
+		position: 'relative',
+		top: '0px',
+		cursor: 'pointer',
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'flex-start',
+		transition: 'height 0.2s, background-color 0.2s, outline 0.2s, top 0.2s, position 0.2s',
 	},
 	
-	opened: {
+	container_opened: {
 		height: '400px',
-		backgroundColor: '#ffe000',
-		outline: 'none',
+		top: '5px',
+		boxShadow: 'none',
+		// backgroundColor: '#ffe000',
+		backgroundColor: '#e4e4e4',
+		// backgroundColor: '#5757ff',
+		// outline: '1px solid black',
+	},
+
+	innerBox: {
+		width: '100%',
+		padding: '10px',
+	},
+
+	colorBar: {
+		height: '20px',
+		width: '100%',
+		backgroundColor: '#5757ff',
 	}
 });
 
-const contentStyles = style.create({
+const contentStyles = StyleSheet.create({
 	base: {
 		position: 'absolute',
+		outline: '1px solid black',
 		left: 0,
 		top: 0,
 		display: 'none',
 	},
 
 	opened: {
-		display: 'block',
+		display: 'none',
 	},
 });
 
@@ -65,7 +86,8 @@ class SeminarCard extends React.Component<Props, State> {
 			if (rc.length && this.state.height === 0 ) {
 				this.setState({
 					...this.state,
-					height: 200 + rc[0].height,
+					// height: 200 + rc[0].height,
+					height: 800,
 				});
 			}
 		}
@@ -73,21 +95,23 @@ class SeminarCard extends React.Component<Props, State> {
 	
 	render() {
 		let containerStyle, contentStyle;
-		const calced = style.create({ get: {height: `${this.state.height}px`} });
+		// const calced = StyleSheet.create({ get: {height: `${this.state.height}px`} });
+		const calced = StyleSheet.create({ get: {height: `200px`} });
 
 		if ( this.props.isOpen ) {
-			containerStyle = css(Styles.base, Styles.opened, calced.get);
+			containerStyle = css(Styles.container, Styles.container_opened, calced.get);
 			contentStyle = css(contentStyles.base, contentStyles.opened);
 		} else {
-			containerStyle = css(Styles.base);
+			containerStyle = css(Styles.container);
 			contentStyle = css(contentStyles.base);
 		}
 		
 		return (
 			<div className={containerStyle} onClick={this.onToggle} onAnimationEndCapture={e => console.log(e)}>
-				<div>
-					<p>title: {this.props.title}</p>
-					<p>author: {this.props.author}</p>
+				<div className={css(Styles.colorBar)}/>
+				<div className={css(Styles.innerBox)}>
+					<h2>{this.props.title}</h2>
+					<p>{this.props.author}</p>
 				</div>
 				<div className={contentStyle} ref={ref => this.content = ref}>
 					<p>contents: {this.props.content}</p>
