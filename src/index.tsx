@@ -43,9 +43,7 @@ ReactDOM.render(
 	document.getElementById('root') as HTMLElement
 );
 
-if ( !dev ) {
-	registerServiceWorker();
-}
+registerServiceWorker();
 
 // Init system
 store.dispatch(SystemAction.init.create());
