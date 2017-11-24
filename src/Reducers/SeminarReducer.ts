@@ -21,10 +21,11 @@ export default makeReducer(seminarInitialState, [
 		if ( keyword === '' ) {
 			showList = List(state.seminars).toArray();
 		} else {
+			const regex = new RegExp(keyword, 'i');
 			showList = List(state.seminars)
 				.filter((seminar: Seminar) => {
-					const title = (seminar.title.search(keyword) !== -1);
-					const author = (seminar.author.search(keyword) !== -1);
+					const title = (seminar.title.search(regex) !== -1);
+					const author = (seminar.author.search(regex) !== -1);
 					return title || author;
 				})
 				.toArray();

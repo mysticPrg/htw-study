@@ -51,7 +51,7 @@ class SeminarList extends React.Component<Props> {
 			</li>
 		));
 
-		const openedCard = this.props.seminars.find(seminar => seminar.isOpen === true );
+		const openedCard = this.props.seminars.filter(seminar => seminar.isOpen)[0];
 		let openedCardElm;
 		if ( openedCard ) {
 			openedCardElm = (
@@ -67,7 +67,7 @@ class SeminarList extends React.Component<Props> {
 
 		return (
 			<div>
-				<button onClick={this.props.refresh}>Refresh</button>
+				{/* <button onClick={this.props.refresh}>Refresh</button> */}
 				<ol className={css(Styles.list)}>{cards}</ol>
 				{openedCardElm}
 			</div>

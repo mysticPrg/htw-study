@@ -1,8 +1,45 @@
 import * as React from 'react';
+import { StyleSheet, css } from 'aphrodite';
+
+const searchImg = require('../Resources/search.png');
 
 interface Props {
 	onSearch: (keyword: String) => void;
 }
+
+const Styles = StyleSheet.create({
+	container: {
+		margin: 'auto',
+		width: '300px',
+		height: '30px',
+		marginTop: '25px',
+		display: 'flex',
+	},
+
+	searchIcon: {
+		backgroundImage: `url(${searchImg})`,
+		width: '30px',
+		height: '100%',
+		backgroundSize: '25px',
+		backgroundRepeat: 'no-repeat',
+		backgroundPosition: 'center',
+	},
+
+	input: {
+		marginLeft: '10px',
+		width: '260px',
+		height: '100%',
+		border: 'none',
+		outline: 'none',
+		boxShadow: '0 5px 15px 0 #0000002b',
+		borderRadius: '15px',
+		padding: '0 15px',
+		fontFamily: 'Jeju gothic',
+		'::placeholder': {
+			textAlign: 'center',
+		}
+	},
+});
 
 class SearchBox extends React.Component<Props> {
 	
@@ -10,8 +47,15 @@ class SearchBox extends React.Component<Props> {
 	
 	render() {
 		return (
-			<div>
-				<input type="search" ref={ref$ => this.searchElm = ref$} onChange={this.onSearch}/>
+			<div className={css(Styles.container)}>
+				<div className={css(Styles.searchIcon)}/>
+				<input
+					type="search"
+					className={css(Styles.input)}
+					ref={ref$ => this.searchElm = ref$}
+					onChange={this.onSearch}
+					placeholder="Search"
+				/>
 			</div>
 		);
 	}

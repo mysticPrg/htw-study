@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { StyleSheet, css } from 'aphrodite';
 
-import SearchContainer from '../Containers/SearchContainer';
 const bg = require('../Resources/header_bg.jpg');
 const logo = require('../Resources/logo.png');
 
@@ -50,11 +49,9 @@ class Header extends React.Component<Props> {
 	render() {
 		return (
 			<div id="header" className={css(styles.header)}>
-				{/* <div className={css(styles.title)}>{this.props.title}</div> */}
 				<div className={css(styles.title)}>
 					<img src={logo} className={css(styles.logo)} />
 				</div>
-				<SearchContainer />
 			</div>
 		);
 	}
