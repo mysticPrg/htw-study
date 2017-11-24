@@ -38,7 +38,7 @@ const Styles = StyleSheet.create({
 		'::placeholder': {
 			textAlign: 'center',
 		}
-	},
+	}
 });
 
 class SearchBox extends React.Component<Props> {
