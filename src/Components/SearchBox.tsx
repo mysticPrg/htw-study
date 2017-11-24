@@ -27,7 +27,7 @@ const Styles = StyleSheet.create({
 
 	input: {
 		marginLeft: '10px',
-		width: '260px',
+		width: '230px',
 		height: '100%',
 		border: 'none',
 		outline: 'none',
