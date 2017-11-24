@@ -3,6 +3,7 @@ import { StyleSheet as style, css } from 'aphrodite';
 
 import { Seminar } from '../Stores';
 import SeminarCard from './SeminarCard';
+import SeminarBoard from './SeminarBoard';
 
 interface Props {
 	readonly seminars: Seminar[];
@@ -50,10 +51,25 @@ class SeminarList extends React.Component<Props> {
 			</li>
 		));
 
+		const openedCard = this.props.seminars.find(seminar => seminar.isOpen === true );
+		let openedCardElm;
+		if ( openedCard ) {
+			openedCardElm = (
+				<SeminarBoard
+					id={openedCard.id}
+					title={openedCard.title}
+					author={openedCard.author}
+					content={openedCard.content}
+					isOpen={openedCard.isOpen}
+				/>
+			);
+		}
+
 		return (
 			<div>
 				<button onClick={this.props.refresh}>Refresh</button>
 				<ol className={css(Styles.list)}>{cards}</ol>
+				{openedCardElm}
 			</div>
 		);
 	}

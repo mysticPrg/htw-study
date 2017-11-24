@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { StyleSheet, css } from 'aphrodite';
 
+const barImg = require('../Resources/bar.png');
+
 interface Props {
 	readonly id: number;
 	readonly title: string;
@@ -12,17 +14,13 @@ interface Props {
 	readonly onClose: () => void;
 }
 
-interface State {
-	height: number;
-}
-
 const Styles = StyleSheet.create({
 	container: {
 		backgroundColor: '#FFFFFF',
 		boxShadow: '0 5px 15px 0 #0000002b',
 		width: '300px',
 		height: '200px',
-		margin: '10px',
+		margin: '25px',
 		position: 'relative',
 		top: '0px',
 		cursor: 'pointer',
@@ -33,107 +31,52 @@ const Styles = StyleSheet.create({
 	},
 	
 	container_opened: {
-		height: '400px',
 		top: '5px',
 		boxShadow: 'none',
-		// backgroundColor: '#ffe000',
-		backgroundColor: '#e4e4e4',
-		// backgroundColor: '#5757ff',
-		// outline: '1px solid black',
+		backgroundColor: '#ced9f3',		
 	},
 
 	innerBox: {
-		width: '100%',
+		width: '280px',
 		padding: '10px',
 	},
 
 	colorBar: {
 		height: '20px',
 		width: '100%',
-		backgroundColor: '#5757ff',
+		backgroundColor: '#765f67',
+		backgroundImage: `url(${barImg})`,
+		transition: 'background-image 0.2s',
+	},
+
+	colorBar_opened: {
+		backgroundImage: 'none',
 	}
 });
 
-const contentStyles = StyleSheet.create({
-	base: {
-		position: 'absolute',
-		outline: '1px solid black',
-		left: 0,
-		top: 0,
-		display: 'none',
-	},
-
-	opened: {
-		display: 'none',
-	},
-});
-
-class SeminarCard extends React.Component<Props, State> {
-	content: HTMLDivElement|null;
-	state: State = {
-		height: 0
-	};
-
+class SeminarCard extends React.Component<Props> {
 	constructor(props: Props) {
 		super(props);
 
 		this.onToggle = this.onToggle.bind(this);
 	}
 
-	componentDidUpdate() {
-		if (this.content) {
-			const rc = this.content.getClientRects();
-			if (rc.length && this.state.height === 0 ) {
-				this.setState({
-					...this.state,
-					// height: 200 + rc[0].height,
-					height: 800,
-				});
-			}
-		}
-	}
-	
 	render() {
-		let containerStyle, contentStyle;
-		// const calced = StyleSheet.create({ get: {height: `${this.state.height}px`} });
-		const calced = StyleSheet.create({ get: {height: `200px`} });
-
+		let containerStyle, barStyle;
 		if ( this.props.isOpen ) {
-			containerStyle = css(Styles.container, Styles.container_opened, calced.get);
-			contentStyle = css(contentStyles.base, contentStyles.opened);
+			containerStyle = css(Styles.container, Styles.container_opened);
+			barStyle = css(Styles.colorBar, Styles.colorBar_opened);
 		} else {
 			containerStyle = css(Styles.container);
-			contentStyle = css(contentStyles.base);
+			barStyle = css(Styles.colorBar);
 		}
 		
 		return (
 			<div className={containerStyle} onClick={this.onToggle} onAnimationEndCapture={e => console.log(e)}>
-				<div className={css(Styles.colorBar)}/>
+				<div className={barStyle}/>
 				<div className={css(Styles.innerBox)}>
 					<h2>{this.props.title}</h2>
 					<p>{this.props.author}</p>
-				</div>
-				<div className={contentStyle} ref={ref => this.content = ref}>
-					<p>contents: {this.props.content}</p>
-					so many text<br />
-					so many text<br />
-					so many text<br />
-					so many text<br />
-					so many text<br />
-					so many text<br />
-					so many text<br />
-					so many text<br />
-					so many text<br />
-					so many text<br />
-					so many text<br />
-					so many text<br />
-					so many text<br />
-					so many text<br />
-					so many text<br />
-					so many text<br />
-					so many text<br />
-					so many text<br />
-					so many text<br />
 				</div>
 			</div>
 		);
