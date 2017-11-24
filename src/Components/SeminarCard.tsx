@@ -17,7 +17,7 @@ interface Props {
 const Styles = StyleSheet.create({
 	container: {
 		backgroundColor: '#FFFFFF',
-		boxShadow: '0 5px 15px 0 #0000002b',
+		boxShadow: '0 5px 15px 0 #979ca7',
 		width: '300px',
 		height: '200px',
 		margin: '25px',

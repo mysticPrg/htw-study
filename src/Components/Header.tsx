@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 		backgroundPositionY: 'center',
 		display: 'flex',
 		flexDirection: 'column',
-		boxShadow: '0 5px 15px 0px #0000002b',
+		boxShadow: '0 5px 15px 0px #979ca7',
 	},
 
 	title: {

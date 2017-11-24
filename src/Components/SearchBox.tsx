@@ -31,7 +31,7 @@ const Styles = StyleSheet.create({
 		height: '100%',
 		border: 'none',
 		outline: 'none',
-		boxShadow: '0 5px 15px 0 #0000002b',
+		boxShadow: '0 5px 15px 0 #979ca7',
 		borderRadius: '15px',
 		padding: '0 15px',
 		fontFamily: 'Jeju gothic',
